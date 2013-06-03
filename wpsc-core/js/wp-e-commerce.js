@@ -242,7 +242,7 @@ jQuery(document).ready(function ($) {
 			form_values = jQuery(this).serialize() + '&action=' + jQuery( 'input[name="wpsc_ajax_action"]' ).val();
 
 			// Sometimes jQuery returns an object instead of null, using length tells us how many elements are in the object, which is more reliable than comparing the object to null
-			if( jQuery( '#fancy_notification' ).length == 0 ) {
+			if( jQuery( '#fancy_notification' ).length === 0 ) {
 				jQuery( 'div.wpsc_loading_animation', this ).css( 'visibility', 'visible' );
 			}
 
@@ -257,16 +257,6 @@ jQuery(document).ready(function ($) {
 				}
 				jQuery('div.shopping-cart-wrapper').html( response.widget_output );
 				jQuery('div.wpsc_loading_animation').css('visibility', 'hidden');
-
-				if ( 'show' == response.sliding_cart_state ) {
-					jQuery( '#sliding_cart' ).slideDown( 'fast',function(){
-						jQuery( '#fancy_collapser' ).attr( 'src', response.core_images_url + '/minus.png' );
-					});
-				} else {
-					jQuery( '#sliding_cart' ).slideUp( 'fast',function(){
-						jQuery( '#fancy_collapser' ).attr( 'src', response.core_images_url + '/plus.png' );
-					});
-				}
 
 				jQuery( '.cart_message' ).delay( 3000 ).slideUp( 500 );
 
@@ -307,6 +297,7 @@ jQuery(document).ready(function ($) {
 	// update the price when the variations are altered.
 	jQuery( 'div.wpsc_variation_forms' ).on( 'change', '.wpsc_select_variation', function() {
 		jQuery('option[value="0"]', this).attr('disabled', 'disabled');
+		self = this;
 		var parent_form = jQuery(this).closest("form.product_form");
 		if ( parent_form.length === 0 )
 			return;
@@ -321,7 +312,7 @@ jQuery(document).ready(function ($) {
 				donation_price = jQuery('input#donation_price_' + prod_id),
 				old_price = jQuery('#old_product_price_' + prod_id),
 				save = jQuery('#yousave_' + prod_id),
-				buynow = jQuery('#BB_BuyButtonForm' + prod_id);
+				buynow = jQuery('#buy-now-product_' + prod_id);
 
 			jQuery( document ).trigger( { type : 'wpsc_select_variation', response : response } );
 
@@ -352,6 +343,9 @@ jQuery(document).ready(function ($) {
 					}
 				}
 				donation_price.val(response.numeric_price);
+
+				buynow.find('input[name="'+jQuery(self).prop('name')+'"]').val(jQuery(self).val());
+				buynow.find('input.wpsc-buy-now-button').prop('disabled', false);
 			}
 		}, 'json' );
 	});
@@ -617,17 +611,6 @@ function wpsc_set_profile_country(html_form_id, form_id) {
 		}
 	}, 'json');
 }
-
-jQuery(document).ready(function(){
-	jQuery('.wpsc_checkout_table input, .wpsc_checkout_table textarea').each(function(){
-		var real_value = jQuery(this).val();
-		value = jQuery('label[for="'+jQuery(this).attr('id')+'"]').text();
-		if( jQuery.fn.inlineFieldLabel )
-		    jQuery(this).inlineFieldLabel({label:jQuery.trim(value)});
-		if(real_value != '')
-			jQuery(this).val(real_value).removeClass('intra-field-label');
-	});
-});
 
 //Javascript for variations: bounce the variation box when nothing is selected and return false for add to cart button.
 jQuery(document).ready(function(){

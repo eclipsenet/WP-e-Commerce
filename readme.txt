@@ -1,16 +1,16 @@
 === WP e-Commerce ===
-Contributors: mufasa, garyc40, JustinSainton, mychelle
+Contributors: mufasa, garyc40, JustinSainton
 Donate link: http://getshopped.org
 Tags: e-commerce, wp-e-commerce, shop, cart, paypal, authorize, stock control, ecommerce, shipping, tax
 Requires at least: 3.4
 Tested up to: 3.6
-Stable tag: 3.8.11
+Stable tag: 3.8.12
 
 WP e-Commerce is a free WordPress Shopping Cart Plugin that lets customers buy your products, services and digital downloads online.
 
 == Description ==
 
-We make setting up an ecommerce shop easy, and with over 2.3 Million downloads, we have unparalleled experience.
+We make setting up an ecommerce shop easy, and with over 2.4 Million downloads, we have unparalleled experience.
 
 Features:
 
@@ -145,7 +145,13 @@ Before updating please make a backup of your existing files and database. Just i
 After upgrading from earlier versions look for link "Update Store". This will update your database structure to work with new version.
 
 == Changelog ==
-= 3.8.11 = 
+
+= 3.8.11.1 =
+* Fix: Some users had theme compatibilities and other configurations that caused "Add to Cart" to no longer function as expected.
+* Fix: Customer uploads for products broke with JS overhaul
+* Fix: Product image links broke.
+
+= 3.8.11 =
 * New: Payment Gateway UI is revamped.
 * New: Sales Log UI is revamped.
 * New: wpsc_single_purchase_log_date_time_format and wpsc_single_purchase_log_date_format (Used in new Sales Log UI).
@@ -166,6 +172,8 @@ After upgrading from earlier versions look for link "Update Store". This will up
 * Change: wpsc_the_variation_price() output is now filtered through wpsc_do_convert_price filter.
 * Change: Submitted_Form_Data table now has a value field with a LONGTEXT data type, rather than varchar(255).
 * Change: Continued internal cleanup of coding standards and documentation.
+* Fix: Properly substitute placeholder in "Out of stock" email to administrator.
+* Fix: Fixed PHP notices when accessing Dashboard as subscriber.
 * Fix: Coupon logic improvements (edge case of using 'not_contains" logic with item_quantity).
 * Fix: Automated fix when possible, and nag when not, for 3.8.10 regression in User Management templates.
 * Fix: Error notices on category functions.
