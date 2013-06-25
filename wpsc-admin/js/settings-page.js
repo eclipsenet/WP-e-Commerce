@@ -309,6 +309,7 @@
 			wrapper.on( 'click', '.field-option-cell-wrapper .wpsc-button-minus', WPSC_Settings_Page.Checkout.event_delete_field_option);
 			wrapper.on( 'click', '#wpsc-delete-checkout-set', WPSC_Settings_Page.Checkout.event_delete_checkout_set);
 			wrapper.on( 'change', '#wpsc_form_set', WPSC_Settings_Page.Checkout.event_select_form_set);
+            wrapper.on( 'click', '.mandatorycol input[type="checkbox"]', WPSC_Settings_Page.Checkout.event_disabled_toggled);
 			$('#wpsc-settings-form').on( 'submit', WPSC_Settings_Page.Checkout.event_form_submit);
 
 			wrapper.find('#wpsc_checkout_list').
@@ -326,6 +327,21 @@
 				});
 
 			WPSC_Settings_Page.Checkout.new_field_count = $('.new-field').length;
+
+			/**
+			 * Finding checkboxes that are mandatory and disabling the display option.
+			 * If it's mandatory you no have choice for display.
+			 */
+			wrapper.find( '.mandatorycol input[type="checkbox"]').each( function(){
+				var displaycol = $( this ).parents( '.mandatorycol' ).siblings( '.displaycol' );
+
+				if ( $( this ).is( ':checked' ) ) {
+					$( displaycol ).find( 'input[type="checkbox"]' ).prop( 'checked', true ).prop( 'readonly', true );
+				} else {
+					$( displaycol ).find( 'input[type="checkbox"]' ).prop( 'readonly', this.checked );
+				}
+			});
+
 		},
 
 		event_add_field_option : function() {
@@ -554,6 +570,21 @@
 
 			WPSC_Settings_Page.unsaved_settings = true;
 			return false;
+		},
+
+		/**
+		 * Disables and checks the display option if you make a field mandatory. If you uncheck
+		 * mandatory then it just enables you to uncheck the display box.
+		 */
+		event_disabled_toggled : function() {
+
+			var displaycol = $( this ).parents( '.mandatorycol' ).siblings( '.displaycol' );
+
+			if ( $( this ).is( ':checked' ) ) {
+				$( displaycol ).find( 'input[type="checkbox"]' ).prop( 'checked', true ).prop( 'readonly', true );
+			} else {
+				 $( displaycol ).find( 'input[type="checkbox"]' ).prop( 'readonly', this.checked );
+			}
 		},
 
 		/**
